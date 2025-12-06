@@ -57,7 +57,7 @@ LLONG Cafeteria::getAnswer() {
 bool Cafeteria::addRange(LLONG l, LLONG r) {
     if (l > r) return false;
 
-    const auto it = _ranges.lower_bound(l);
+    const auto it = _ranges.upper_bound(l);
 
     if (it != _ranges.begin()) {
         const auto prev = std::prev(it); // l1 < l
