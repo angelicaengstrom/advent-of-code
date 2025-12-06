@@ -5,12 +5,13 @@
 #include "SecretEntrance.h"
 
 #include <fstream>
+#include <iostream>
 
 int SecretEntrance::_dial = 50;
 int SecretEntrance::_password = 0;
 
 bool SecretEntrance::exec(std::string &outError) {
-    std::ifstream input("input");
+    std::ifstream input("01-input");
 
     if (!input) {
         outError = "Error opening file";
@@ -30,7 +31,6 @@ bool SecretEntrance::exec(std::string &outError) {
                 outError = "Invalid direction";
                 return false;
         }
-        updatePassword();
     }
 
     return true;
@@ -41,10 +41,22 @@ int SecretEntrance::getAnswer() {
 }
 
 int SecretEntrance::turnLeft(const int steps) {
+    _password += (_dial - steps) / -100;
+    if (_dial > 0 && (_dial - steps) < 0) {
+        _password++;
+    } else if (_dial - steps  == 0) {
+        _password++;
+    }
     return (_dial - steps + 100) % 100;
 }
 
 int SecretEntrance::turnRight(const int steps) {
+    _password += (_dial + steps) / 100;
+    if (_dial < 0 && (_dial + steps) > 0) {
+        _password++;
+    } else if (_dial + steps == 0) {
+        _password++;
+    }
     return (_dial + steps) % 100;
 }
 
